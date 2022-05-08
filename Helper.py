@@ -1,6 +1,6 @@
 # Term:        Spring 2022
 # Name:        Abdullah Ehsan
-# Project:     Deliverable P2 Parser
+# Project:     Deliverable P3 Interpreter
 # File:        Helper.py
 
 from collections import namedtuple
@@ -11,7 +11,7 @@ class AnalysisError(Exception):
 
 # declaration of namedtuple to facilitate entries to the symbol table
 # can be treated as an object but behaves as a tuple
-Symbol = namedtuple('Symbol', ['token_type', 'lexeme'])
+Symbol = namedtuple('Symbol', ['token_type', 'lexeme', 'line_num'])
 
 # dictionary of tokens and their regex for checking each lexeme
 # based on list provided in project files
@@ -38,7 +38,7 @@ TOKENS = {
 # reserved words to be checked if lexeme matches 'other' token
 # list taken from the grammar provided for the syntax analyzer
 RESERVED_WORDS = [
-    'function', 'end', 'if', 'then', 'else', 'while', 'do', 'repeat' 'until', 'print',
+    'function', 'end', 'if', 'then', 'else', 'while', 'do', 'repeat', 'until', 'print',
 ]
 
 GRAMMAR = {

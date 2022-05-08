@@ -1,9 +1,8 @@
 # Term:        Spring 2022
 # Name:        Abdullah Ehsan
-# Project:     Deliverable P2 Parser
+# Project:     Deliverable P3 Interpreter
 # File:        Scanner.py
 
-from collections import namedtuple
 import re
 
 from Helper import TOKENS, AnalysisError, Symbol, RESERVED_WORDS
@@ -13,10 +12,9 @@ class LexicalAnalyzer:
     def __init__(self) -> None:
         # initialize class
 
-        # symbol table, will be list of lists
-        # indices of outer list correspond to lines (0 indexed)
-        # indices of inner list correspond to lexemes (0 indexed)
-        self.__symbol_table: list[list[Symbol]]= []
+        # symbol table, will be list of Symbols
+        # indices of list correspond to lexemes (0 indexed)
+        self.__symbol_table: list[Symbol]= []
 
     def __validate(self, lexical_unit:str) -> str:
         # check whether the unit matches a token
@@ -24,7 +22,6 @@ class LexicalAnalyzer:
 
         # iterate through tokens
         for token_type, regex in TOKENS.items():
-
             # check for exact match of regex
             if re.fullmatch(regex, lexical_unit):
 
@@ -42,7 +39,7 @@ class LexicalAnalyzer:
 
     def __insert_into_symbol_table(self, *, line:int, token_type:str, lexical_unit:str) -> None:
         # appends token_type and the lexical unit to the list corresponding to the line
-        self.__symbol_table[line].append(Symbol(token_type, lexical_unit))
+        self.__symbol_table.append(Symbol(token_type, lexical_unit, line))
 
     def __analyze_list(self, *, index_of_row:int, list_of_tokens:list)->None:
         # validates each lexical unit
@@ -60,7 +57,7 @@ class LexicalAnalyzer:
                         self.__insert_into_symbol_table(line=index_of_row, token_type=token_validated, lexical_unit=unit)
 
                         # # Optional way to print symbol after each insertion
-                        # print(self.__symbol_table[index_of_row][-1])
+                        # print(self.__symbol_table[-1])
                 else:
                     raise AnalysisError(f"Invalid lexical unit on line {index_of_row+1}: {unit}")
 
@@ -73,9 +70,6 @@ class LexicalAnalyzer:
 
             # iterate lines of file
             for idx, line in enumerate(file):
-
-                # initialize list for that row
-                self.__symbol_table.append([])
 
                 # ignore line if comment
                 if line[0] in ('//'):
