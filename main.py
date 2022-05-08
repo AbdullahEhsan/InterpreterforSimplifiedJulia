@@ -19,7 +19,7 @@ if __name__ == "__main__":
     parser = SyntaxAnalyzer()
     interpreter = Interpreter()
 
-    folder = ""
+    folder = "julia_files"
 
     # initialize test file paths
     test1path = os.path.join(sys.path[0], folder, 'Test1.jl')
